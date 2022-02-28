@@ -11,14 +11,11 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "task_list")
+public class TaskList {
     @Id
-    private Integer userId;
-    private String nameSurname;
-    private String userName;
-    private String password;
-    private String email;
+    private Integer listId;
+    private Integer ownerUserId;
+    private String name;
 }

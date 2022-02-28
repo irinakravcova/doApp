@@ -12,10 +12,9 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "task_list")
-public class List {
+@Table(name = "list_permission")
+public class ListPermission {
     @Id
     private Integer listId;
-    private Integer userId;
-    private String name;
+    private Integer granteeUserId;
 }
