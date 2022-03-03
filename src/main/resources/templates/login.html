@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>DoApp || Login</title>
 </head>
 <body>
-<a href="/useraccount">userAccount</a>
-<a href="/register">New to DoApp? Create an account</a>
+<section class="p-3">
+    <form method="post" action="/login">
+        <div class="input-group mb-3">
+            <label class="form-label p-3">Username</label>
+            <input name="username" class="form-control" type="text" required>
+        </div>
+        <div class="input-group mb-3">
+            <label class="form-label p-3">Password</label>
+            <input name="password" class="form-control" type="password" required>
+        </div>
+        <div class="row mb-3">
+            <button type="submit" class="btn btn-primary p-3">
+                Login
+            </button>
+        </div>
+    </form>
+</section>
 </body>
 </html>

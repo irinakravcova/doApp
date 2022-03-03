@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>DoApp || Register</title>
 </head>
 <body>
-<div>Enter username</div>
-<div>Enter password</div>
+<main class="container">
+    <section>
+        <form method="post" action="/register">
+            <div>
+                <label class="form-label">Enter your username</label>
+                <input class="form-control" name="userName" type="text" required>
+            </div>
+            <div>
+                <label class="form-label">Enter your password</label>
+                <input class="form-control" name="password" type="password" required>
+            </div>
+            <div class="row p-1 mb-3">
+                <button class="btn btn-primary p-3" type="submit">Create an account</button>
+            </div>
+        </form>
+    </section>
+</main>
 </body>
 </html>
