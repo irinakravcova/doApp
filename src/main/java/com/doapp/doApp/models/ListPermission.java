@@ -16,5 +16,6 @@ import javax.persistence.Table;
 public class ListPermission {
     @Id
     private Integer listId;
+    @Id
     private Integer granteeUserId;
 }

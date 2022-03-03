@@ -14,6 +14,7 @@ import java.util.Calendar;
 @Table(name = "task")
 public class Task {
     @Id
+    @GeneratedValue
     private Integer taskId;
     private Integer userId;
     private Integer listId;
