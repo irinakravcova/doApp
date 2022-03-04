@@ -68,9 +68,12 @@ public class DoAppApplication implements ApplicationRunner {
 		} while (choice != 0);
 
 	}
+//	@Autowired
+//	RestTemplate rt;
 
 	private void doListTasks(String user) {
 		System.out.println("Will list tasks for user '" + user + "'");
+//		rt.getForObject("/api/")
 		ls.listTasksForUser(user);
 	}
 

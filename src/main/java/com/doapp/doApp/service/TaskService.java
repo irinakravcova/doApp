@@ -14,7 +14,8 @@ public class TaskService {
     EntityManager em;
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void addTask(String user, String currentList, String task_content_here) {
+    public void addTask(String token, String currentList, String task_content_here) {
+//        findUserByToken(token);
         Task task = new Task(null, 1, 1, task_content_here, null, Status.INCOMPLETE);
         em.persist(task);
     }

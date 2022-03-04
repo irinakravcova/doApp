@@ -2,10 +2,8 @@ package com.doapp.doApp.models;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Calendar;
 
 @Setter
 @Getter
@@ -23,4 +21,7 @@ public class User {
     private String userName;
     private String password;
     private String email;
+    private String token;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar tokenExpiration;
 }
