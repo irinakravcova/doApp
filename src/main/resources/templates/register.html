@@ -9,6 +9,10 @@
     <section>
         <form method="post" action="/register">
             <div>
+                <label class="form-label">Enter Your Name and Surname</label>
+                <input class="form-control" name="nameSurname" type="text" required>
+            </div>
+            <div>
                 <label class="form-label">Enter your username</label>
                 <input class="form-control" name="userName" type="text" required>
             </div>
@@ -16,6 +20,11 @@
                 <label class="form-label">Enter your password</label>
                 <input class="form-control" name="password" type="password" required>
             </div>
+            <div>
+                <label class="form-label">Enter your email</label>
+                <input class="form-control" name="email" type="email" required>
+            </div>
+
             <div class="row p-1 mb-3">
                 <button class="btn btn-primary p-3" type="submit">Create an account</button>
             </div>
