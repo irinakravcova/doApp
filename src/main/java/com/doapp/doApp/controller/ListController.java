@@ -19,9 +19,14 @@ public class ListController {
     @Autowired
     ListService ls;
 
+    @GetMapping("/my")
+    public TaskListsDTO list(@RequestParam("userId") Integer userId) {
+        return new TaskListsDTO(List.of(new TaskListDTO(1, "test list 1"), new TaskListDTO(2, "test list 2")));
+    }
+
     @GetMapping("/list/{listId}")
     public TaskListsDTO list(@RequestParam("userId") Integer userId, @PathVariable("listId") Integer listId) {
-        return new TaskListsDTO(List.of(new TaskListDTO(1, "test list 1"), new TaskListDTO(2, "test list 2")));
+        return new TaskListsDTO(List.of(new TaskListDTO(listId, "test list 1")));
     }
 
     @PostMapping("/create")

@@ -14,6 +14,6 @@ import java.util.List;
 @ToString
 public class TaskListsDTO {
 
-    private List<TaskListDTO> list = new ArrayList<>();
+    List<TaskListDTO> list = new ArrayList<>();
 
 }
