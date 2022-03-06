@@ -2,6 +2,7 @@ package com.doapp.doApp.models;
 
 import lombok.*;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,8 +15,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "list_permission")
 public class ListPermission {
-    @Id
-    private Integer listId;
-    @Id
-    private Integer granteeUserId;
+    @EmbeddedId
+    ListPermissionId listPermissionId;
 }
