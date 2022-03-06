@@ -30,14 +30,16 @@ public class UserLoginService {
         }
         byte[] tokenSourceData = (userName + password).getBytes(StandardCharsets.UTF_8); // create base for hashing
         byte[] md5bytes = md.digest(tokenSourceData); // generate hash out of base
-        String md5string = Arrays.toString(md5bytes); // convert resulting hash to string representation
+        String md5string = bytesToHex(md5bytes); // convert resulting hash to string representation
         User userFound = ur.findByUserNameAndPassword(userName, md5string);
 
         if (userFound == null) {
             return new UserCredentials("ERROR", "Invalid password or user not found");
         }
         md.reset();
-        String token = md.digest((userFound.getUserName() + userFound.getEmail() + new Random().nextInt(Integer.MAX_VALUE)).toString().getBytes(StandardCharsets.UTF_8)).toString();
+        String token = bytesToHex(md.digest(
+                (userFound.getUserName() + userFound.getEmail() + new Random().nextInt(Integer.MAX_VALUE)).
+                        getBytes(StandardCharsets.UTF_8)));
         userFound.setToken(token);
 
         Calendar tokenExpiration = Calendar.getInstance();
@@ -67,4 +69,17 @@ public class UserLoginService {
         }
         return new UserCredentials("NOT_LOGGED_IN", "Not logged in");
     }
+
+    private static final byte[] HEX_ARRAY = "0123456789ABCDEF".getBytes(StandardCharsets.US_ASCII);
+
+    public static String bytesToHex(byte[] bytes) {
+        byte[] hexChars = new byte[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars, StandardCharsets.UTF_8);
+    }
+
 }

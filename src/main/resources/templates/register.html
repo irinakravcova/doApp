@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>DoApp || Register</title>
@@ -7,7 +7,10 @@
 <body>
 <main class="container">
     <section>
-        <form method="post" action="/register">
+        <form method="post" action="/api/register">
+            <div class="list-group-flush" th:if="${errorCode != null}">
+                Registration failed: ${errorMessage}
+            </div>
             <div>
                 <label class="form-label">Enter Your Name and Surname</label>
                 <input class="form-control" name="nameSurname" type="text" required>
