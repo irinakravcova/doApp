@@ -19,7 +19,7 @@ public class ListController {
     @Autowired
     ListService ls;
 
-    @GetMapping("/my")
+    @GetMapping("/")
     public TaskListsDTO list(@RequestParam("userId") Integer userId) {
         return new TaskListsDTO(List.of(new TaskListDTO(1, "test list 1"), new TaskListDTO(2, "test list 2")));
     }
@@ -41,6 +41,7 @@ public class ListController {
 
     @DeleteMapping("/delete/{listId}")
     public OperationStatus delete(@RequestParam("userId") Integer userId, @PathVariable("listId") Integer listId) {
+        //todo: not implemented
         return new OperationStatus("OK", "Delete succeed");
     }
 

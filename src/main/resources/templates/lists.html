@@ -22,7 +22,10 @@
                                 <label th:text="${lst.listId}"></label>
                             </div>
                             <div class="row mt-3 card-text" style="font-size: 20px">
+                                <label text="/api/list/${lst}?token=${token}">zzz</label>
+                                <a th:href="${'/api/list/list/' + lst.listId + '?token=' + token}" th:text="${lst.name}"></a>
                                 <label th:text="${lst.name}"></label><!-- Add link to jump to tasks of specific list -->
+                                </label>
                             </div>
                             <!-- Add buttons for rename/delete/share list -->
                         </div>

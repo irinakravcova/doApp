@@ -55,10 +55,10 @@ public class DoAppApplication implements ApplicationRunner {
 					user = scanner.next();
 					break;
 				case 2:
-					doAddTask(user, currentList);
+					doAddTask(user, 1);
 					break;
 				case 3:
-					doCompleteTask(user, currentList);
+					doCompleteTask(user, 1, 1);
 					break;
 				case 4:
 					doListTasks(user);
@@ -74,16 +74,16 @@ public class DoAppApplication implements ApplicationRunner {
 	private void doListTasks(String user) {
 		System.out.println("Will list tasks for user '" + user + "'");
 //		rt.getForObject("/api/")
-		ls.listTasksForUser(user);
+		ls.getTaskLists(user);
 	}
 
-	private void doCompleteTask(String user, String currentList) {
-		System.out.println("Will complete task in currentList '" + currentList + "' for user '" + user + "'");
+	private void doCompleteTask(String user, Integer listId, Integer taskId) {
+		System.out.println("Will complete task in currentList '" + listId + "' for user '" + user + "'");
 	}
 
-	private void doAddTask(String user, String currentList) {
-		System.out.println("Will add task into currentList '" + currentList + "' for user '" + user + "'");
+	private void doAddTask(String user, Integer listId) {
+		System.out.println("Will add task into currentList '" + listId + "' for user '" + user + "'");
 		// ask user for task content...
-		ts.addTask(user, currentList, "task content here");
+		ts.addTask(user, listId, "task content here");
 	}
 }

@@ -1,5 +1,9 @@
 package com.doapp.doApp.service;
 
+import com.doapp.doApp.auth.UserLoginService;
+import com.doapp.doApp.models.TaskList;
+import com.doapp.doApp.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -12,14 +16,15 @@ public class ListService {
     @PersistenceContext
     EntityManager em;
 
-    public void listTasksForUser(String user) {
-        int userId = 1; // convert user to userId
-        Query qry = em.createQuery("SELECT t FROM Task t WHERE t.userId = :pUser")
-                .setParameter("pUser", userId);
-        List list = qry.getResultList();
-        System.out.println("Tasks found: " + list.size());
-        for (Object t : list) {
-            System.out.println("Task: " + t);
-        }
+    @Autowired
+    UserLoginService uls;
+
+    // todo: add also lists that were granted via ListPermission table
+    public List<TaskList> getTaskLists(String token) {
+        User user = uls.userLogin(token);
+        Query qry = em.createQuery("SELECT tl FROM TaskList tl WHERE tl.ownerUserId = :pUser")
+                .setParameter("pUser", user.getUserId());
+        return qry.getResultList();
     }
+
 }

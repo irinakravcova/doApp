@@ -15,7 +15,7 @@ import java.util.Random;
 @Service
 public class UserLoginService {
 
-    public static final Integer TOKEN_EXPIRATION_SECONDS = 60 * 5; // 5 minutes
+    public static final Integer TOKEN_EXPIRATION_SECONDS = 60 * 60; // 60 minutes
 
     @Autowired
     UserRepository ur;
@@ -58,16 +58,32 @@ public class UserLoginService {
      * @return
      */
     public UserCredentials login(String token) {
-        User user = ur.findByTokenEquals(token);
-        Calendar now = Calendar.getInstance();
+        User user = userLogin(token);
         if (user != null) {
-            user.getTokenExpiration().after(now);
-            now.add(Calendar.SECOND, TOKEN_EXPIRATION_SECONDS);
-            user.setTokenExpiration(now);
-            ur.save(user); // update expiration token
             return new UserCredentials("OK", "", user.getToken(), user.getNameSurname());
         }
         return new UserCredentials("NOT_LOGGED_IN", "Not logged in");
+    }
+
+    /**
+     * Find user by token, if token is still valid; also update token expiration if token still valid.
+     *
+     * @param token
+     * @return user or null
+     */
+    public User userLogin(String token) {
+        User user = ur.findByTokenEquals(token);
+        if (user != null) {
+            Calendar now = Calendar.getInstance();
+            if (user.getTokenExpiration().before(now)) {
+                return null;
+            }
+            now.add(Calendar.SECOND, TOKEN_EXPIRATION_SECONDS);
+            user.setTokenExpiration(now);
+            ur.save(user); // update expiration token
+            return user;
+        }
+        return null;
     }
 
     private static final byte[] HEX_ARRAY = "0123456789ABCDEF".getBytes(StandardCharsets.US_ASCII);
