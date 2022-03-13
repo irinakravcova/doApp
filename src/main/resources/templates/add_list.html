@@ -12,17 +12,22 @@
 </header>
 <main class="container mt-3">
     <section class="p-3">
+        <form method="post" action="/list/create">
         <div>
-            <label text="/api/list/${lst}?token=${token}">Add List</label>
-            <input name="newListName"/>
+            <input type="hidden" name="token" th:value="${token}">
+            <label>Add List</label>
+
+            <br/>
+            <input name="newListName" placeholder="New List Name"/>
             <br/>
             <div class="row">
-                <button class="p-3 btn">cancel</button>
+                <button class="p-3 btn">Cancel</button>
             </div>
             <div class="row">
-                <button class="p-3 btn btn-primary">add</button>
+                <button class="p-3 btn btn-primary">Add</button>
             </div>
         </div>
+        </form>
     </section>
 </main>
 </body>

@@ -22,7 +22,7 @@ public class ListService {
     // todo: add also lists that were granted via ListPermission table
     public List<TaskList> getTaskLists(String token) {
         User user = uls.userLogin(token);
-        Query qry = em.createQuery("SELECT tl FROM TaskList tl WHERE tl.ownerUserId = :pUser")
+        Query qry = em.createQuery("SELECT tl FROM TaskList tl WHERE tl.owner = :pUser")
                 .setParameter("pUser", user.getUserId());
         return qry.getResultList();
     }

@@ -12,18 +12,24 @@
 </header>
 <main class="container mt-3">
     <section class="p-3">
+        <form method="post" th:action="${'/task/create/' + listId}">
         <div>
-            <label text="/api/list/${lst}?token=${token}">Add Task</label>
-            <input name="newTaskName"/>
-            <input name="dueDate"/>
+            <input type="hidden" name="token" th:value="${token}">
+            <label>Add Task</label>
+
+            <input name="name" placeholder="Task Description"/>
+            <input name="dueDate" type="date"/>
+            <br/>
+            <br/>
             <br/>
             <div class="row">
-                <button class="p-3 btn">cancel</button>
+                <button class="p-3 btn btn-primary">Add</button>
             </div>
             <div class="row">
-                <button class="p-3 btn btn-primary">add</button>
+                <button class="p-3 btn">Cancel</button>
             </div>
         </div>
+        </form>
     </section>
 </main>
 </body>

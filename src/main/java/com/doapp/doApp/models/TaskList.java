@@ -2,10 +2,8 @@ package com.doapp.doApp.models;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter
@@ -18,6 +16,25 @@ public class TaskList {
     @Id
     @GeneratedValue
     private Integer listId;
-    private Integer ownerUserId;
+    @ManyToOne
+    @JoinColumn(name = "owner_user_id")
+    private User owner;
+    @OneToMany
+    private List<ListPermission> listPermission;
     private String name;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TaskList taskList = (TaskList) o;
+
+        return listId.equals(taskList.listId);
+    }
+
+    @Override
+    public int hashCode() {
+        return listId.hashCode();
+    }
 }

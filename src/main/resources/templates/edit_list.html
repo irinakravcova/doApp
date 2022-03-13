@@ -12,19 +12,22 @@
 </header>
 <main class="container mt-3">
     <section class="p-3">
+        <form method="post" th:action="/list/edit">
         <div>
-            <label text="/api/list/${lst}?token=${token}">Edit List</label>
+            <input type="hidden" name="token" th:value="${token}">
+            <label>Edit List</label>
             <label th:text="${list.name}"></label>
             <br/>
             <input name="newListName" th:value="${list.name}"/>
             <br/>
-            <div class="row">
+            <div class="col">
                 <button class="p-3 btn">Cancel</button>
             </div>
-            <div class="row">
-                <button class="p-3 btn btn-primary">Rename</button>
+            <div class="col">
+                <button class="p-3 btn btn-primary">Save</button>
             </div>
         </div>
+        </form>
     </section>
 </main>
 </body>

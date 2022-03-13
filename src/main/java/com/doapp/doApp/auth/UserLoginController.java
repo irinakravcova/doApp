@@ -1,8 +1,6 @@
 package com.doapp.doApp.auth;
 
 import com.doapp.doApp.controller.ListController;
-import com.doapp.doApp.dto.TaskListsDTO;
-import com.doapp.doApp.models.User;
 import com.doapp.doApp.repository.UserRepository;
 import com.doapp.doApp.service.PageDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +41,11 @@ public class UserLoginController {
 
         System.err.println("Login: Passed, user creds: " + uc);
 
-        User user = ur.findByTokenEquals(uc.getToken());
-        TaskListsDTO lists = lc.list(user.getUserId());
-
-        model.addAttribute("tasksLists", lists);
         model.addAttribute("token", uc.getToken());
-        return "lists";
+
+        String redirect = lc.list(model, uc.getToken()); // very weird construction...
+
+        return redirect;
     }
 
 }

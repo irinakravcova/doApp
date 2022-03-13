@@ -5,15 +5,16 @@
     <title>DoApp || Login</title>
 </head>
 <body>
+<main class="container mt-3">
 <section class="p-3">
     <form method="post" action="/api/login">
         <div class="input-group mb-3">
             <label class="form-label p-3">Username</label>
-            <input name="username" class="form-control" type="text" required>
+            <input name="username" class="form-control" type="text" placeholder="username" required>
         </div>
         <div class="input-group mb-3">
             <label class="form-label p-3">Password</label>
-            <input name="password" class="form-control" type="password" required>
+            <input name="password" class="form-control" type="password" placeholder="password" required>
         </div>
         <div class="row mb-3">
             <button type="submit" class="btn btn-primary p-3">
@@ -22,5 +23,6 @@
         </div>
     </form>
 </section>
+</main>
 </body>
 </html>

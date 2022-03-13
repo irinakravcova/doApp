@@ -16,8 +16,12 @@ public class Task {
     @Id
     @GeneratedValue
     private Integer taskId;
-    private Integer userId;
-    private Integer listId;
+    @JoinColumn(name = "userId")
+    @ManyToOne
+    private User owner;
+    @ManyToOne
+    @JoinColumn(name = "listId")
+    private TaskList list;
     private String name;
     private Calendar dueDate;
     @Enumerated(EnumType.ORDINAL)

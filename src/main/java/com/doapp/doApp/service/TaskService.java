@@ -3,7 +3,9 @@ package com.doapp.doApp.service;
 import com.doapp.doApp.auth.UserLoginService;
 import com.doapp.doApp.models.Status;
 import com.doapp.doApp.models.Task;
+import com.doapp.doApp.models.TaskList;
 import com.doapp.doApp.models.User;
+import com.doapp.doApp.repository.TaskListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +23,33 @@ public class TaskService {
     @Autowired
     UserLoginService uls;
 
+    @Autowired
+    TaskListRepository tls;
+
+
+    public Task get(String token, Integer taskId) {
+        User user = uls.userLogin(token);
+        if (user == null) {
+            return null;
+        }
+
+        return null;
+
+    }
 
     public Task addTask(String token, Integer listId, String task_content_here) {
         User user = uls.userLogin(token);
         if (user == null) {
             return null;
         }
-        return addTask(user.getUserId(), listId, task_content_here);
+        return addTask(user, listId, task_content_here);
     }
 
-    public Task addTask(Integer userId, Integer listId, String task_content_here) {
+    public Task addTask(User user, Integer listId, String task_content_here) {
 
+        TaskList taskList = tls.findById(listId).orElseThrow();
         // todo: add check if this list is writable for current user
-        Task task = new Task(null, userId, listId, task_content_here, null, Status.INCOMPLETE);
+        Task task = new Task(null, user, taskList, task_content_here, null, Status.INCOMPLETE);
         em.persist(task);
         return task;
     }
@@ -91,7 +107,7 @@ public class TaskService {
     public List<Task> list(Integer userId, Integer listId) {
 
         // todo: also check if list has been granted via ListPermission table
-        Query qry = em.createQuery("SELECT t FROM Task t WHERE t.listId = :pList OR t.userId = :pUser")
+        Query qry = em.createQuery("SELECT t FROM Task t WHERE t.list.listId = :pList OR t.owner = :pUser")
                 .setParameter("pList", listId)
                 .setParameter("pUser", userId);
         List list = qry.getResultList();

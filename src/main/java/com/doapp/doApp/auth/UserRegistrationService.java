@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
+
+import static com.doapp.doApp.auth.UserLoginService.bytesToHex;
 
 @Service
 public class UserRegistrationService {
@@ -30,7 +31,7 @@ public class UserRegistrationService {
         }
         byte[] tokenSourceData = (userName + password).getBytes(StandardCharsets.UTF_8);
         byte[] md5bytes = md.digest(tokenSourceData);
-        String md5string = Arrays.toString(md5bytes);
+        String md5string = bytesToHex(md5bytes); // convert resulting hash to string representation
         User newUser = new User(null, nameSurname, userName, md5string, email, null, null);
         User savedUser = ur.save(newUser);
         System.out.println("User created with name: '" + savedUser.getUserName() + "', id: " + savedUser.getUserId());

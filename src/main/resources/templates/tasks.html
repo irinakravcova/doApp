@@ -13,33 +13,36 @@
 <main class="container mt-3">
     <section class="p-3">
         <div>
-            <ul class="list-group-flush" th:if="${tasksLists != null}">
-                <ul class="list-group-flush" th:if="${tasksLists.getList().size() != 0}">
-                    <li class="list-group-item" th:each="lst : ${tasksLists.getList()}">
+            <a th:href="${'/lists?token=' + token}">Back to Lists</a>
+            <ul class="list-group-flush" th:if="${tasks != null}">
+                <ul class="list-group-flush" th:if="${tasks.size() != 0}">
+                    <li class="list-group-item" th:each="task : ${tasks}">
                         <div class="row">
                             <div class="col-auto">
                                 <div class="row mt-3 card-text" style="font-size: 20px">
-                                    <label th:text="${lst.listId}"></label>
+                                    <label th:text="${task.taskId}"></label>
                                 </div>
                                 <div class="row mt-3 card-text" style="font-size: 20px">
-                                    <label text="/api/list/${lst}?token=${token}">zzz</label>
-                                    <a th:href="${'/api/list/list/' + lst.listId + '?token=' + token}" th:text="${lst.name}"></a>
-                                    <label th:text="${lst.name}"></label><!-- Add link to jump to tasks of specific list -->
+                                    <a th:href="${'/edit_task/' + task.taskId + '?token=' + token}" th:text="${task.name}"></a>
+                                    <!-- Add link to jump to tasks of specific list -->
                                     </label>
 
                                     <div class="row">
-                                        <button class="p-3 btn btn-primary">X</button>
+                                        <button class="p-3 btn btn-primary">Delete Task</button>
                                     </div>
 
                                 </div>
-                                <!-- Add buttons for rename/delete/share list -->
+                                <!-- Add buttons for complete task -->
                             </div>
                         </div>
                     </li>
                 </ul>
             </ul>
-            <div th:if="${tasksLists == null || tasksLists.getList().isEmpty()}">
-                <h4>No lists to display</h4>
+            <div th:if="${tasks == null || tasks.isEmpty()}">
+                <h4>No tasks to display</h4>
+            </div>
+            <div>
+                <a class="ui-button" th:href="${'/add_task/' + listId + '?token=' + token}">Create task</a>
             </div>
         </div>
 
