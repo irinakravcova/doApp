@@ -18,9 +18,18 @@ public class PageDataService {
     PageDataService() {
         availablePages.add(new Page("index", "Home", "Home page", "/"));
         availablePages.add(new Page("register", "Register", "Create an account", "/register"));
-        availablePages.add(new Page("login", "Login", "Login to start chatting", "/login"));
+        availablePages.add(new Page("login", "Login", "Login into DoApp", "/login"));
         availablePages.add(new Page("tasks", "Tasks", "Tasks belongs to user", "/tasks"));
         availablePages.add(new Page("lists", "Task Lists", "Lists of tasks available for user", "/lists"));
+        availablePages.add(new Page("add_list", "Add New List", "Add new list of tasks with given name", "/add_list"));
+        availablePages.add(new Page("delete_list", "Delete List", "Delete selected list", "/delete_list"));
+        availablePages.add(new Page("edit_list", "Edit List", "Edit list name", "/edit_list"));
+        availablePages.add(new Page("add_task", "Add New Task", "Add new task with name and due date", "/add_task"));
+        availablePages.add(new Page("complete_task", "Complete Task", "Mark selected task as completed", "/complete_task"));
+        availablePages.add(new Page("delete_task", "Delete Task", "Delete selected task", "/delete_task"));
+        availablePages.add(new Page("edit_task", "Edit Task", "Edit task name and due date", "/edit_task"));
+        availablePages.add(new Page("permission_list", "Permissions granted to list", "Edit task name and due date", "/permission_list"));
+        availablePages.add(new Page("useraccount", "User settings", "Edit user settings", "/useraccount"));
     }
 
     public Page getPage(String pageName) {
