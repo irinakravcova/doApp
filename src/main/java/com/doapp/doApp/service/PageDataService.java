@@ -19,7 +19,7 @@ public class PageDataService {
         availablePages.add(new Page("index", "Home", "Home page", "/"));
         availablePages.add(new Page("register", "Register", "Create an account", "/register"));
         availablePages.add(new Page("login", "Login", "Login into DoApp", "/login"));
-        availablePages.add(new Page("tasks", "Tasks", "Tasks belongs to user", "/tasks"));
+        availablePages.add(new Page("list", "Tasks", "Tasks within list", "/list"));
         availablePages.add(new Page("lists", "Task Lists", "Lists of tasks available for user", "/lists"));
         availablePages.add(new Page("add_list", "Add New List", "Add new list of tasks with given name", "/add_list"));
         availablePages.add(new Page("delete_list", "Delete List", "Delete selected list", "/delete_list"));

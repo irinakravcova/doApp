@@ -3,8 +3,9 @@ package com.doapp.doApp.auth;
 import com.doapp.doApp.service.PageDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
@@ -17,17 +18,17 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String showRegisterPage(Model model) {
+    public ModelAndView showRegisterPage(ModelMap model) {
         model.addAttribute("appTitle", pageDataService.getAppTitle());
         model.addAttribute("pageInfo", pageDataService.getPage("register"));
-        return "register";
+        return new ModelAndView("register", model);
     }
 
     @GetMapping("/login")
-    public String showLoginPage(Model model) {
+    public ModelAndView showLoginPage(ModelMap model) {
         model.addAttribute("appTitle", pageDataService.getAppTitle());
         model.addAttribute("pageInfo", pageDataService.getPage("login"));
-        return "login";
+        return new ModelAndView("login", model);
     }
 
 }
