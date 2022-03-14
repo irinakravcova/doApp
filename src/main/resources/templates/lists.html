@@ -23,6 +23,9 @@
 </header>
 <main class="container mt-3">
     <section class="p-3">
+        <div class="list-group-flush alert-danger" th:if="${errorCode != null}">
+            Error message: ${errorMessage}
+        </div>
         <div>
             <ul class="list-group-flush" th:if="${lists != null}">
             <ul class="list-group-flush" th:if="${lists.size() != 0}">
@@ -33,7 +36,7 @@
                                 <label th:text="${lst.listId}"></label>
                                 <a th:href="${'/list/' + lst.listId + '?token=' + token}" th:text="${lst.name}"></a>
                                 <a class="my-button" th:href="${'/list/edit/' + lst.listId + '?token=' + token}">Edit</a>
-                                <a class="my-button" th:href="${'/permission/grant/' + lst.listId + '?token=' + token}">Share</a>
+                                <a class="my-button" th:href="${'/ps/' + lst.listId + '?token=' + token}">Share</a>
                                 <a class="my-button" th:href="${'/list/delete/' + lst.listId + '?token=' + token}">Delete</a>
                             </div>
                         </div>
