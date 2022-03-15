@@ -16,9 +16,8 @@ public class PageDataService {
     List<Page> availablePages = new ArrayList<>();
 
     PageDataService() {
-        availablePages.add(new Page("index", "Home", "Home page", "/"));
+        availablePages.add(new Page("login", "Login", "Login into DoApp", "/"));
         availablePages.add(new Page("register", "Register", "Create an account", "/register"));
-        availablePages.add(new Page("login", "Login", "Login into DoApp", "/login"));
         availablePages.add(new Page("list", "Tasks", "Tasks within list", "/list"));
         availablePages.add(new Page("lists", "Task Lists", "Lists of tasks available for user", "/lists"));
         availablePages.add(new Page("add_list", "Add New List", "Add new list of tasks with given name", "/add_list"));
@@ -28,7 +27,9 @@ public class PageDataService {
         availablePages.add(new Page("complete_task", "Complete Task", "Mark selected task as completed", "/complete_task"));
         availablePages.add(new Page("delete_task", "Delete Task", "Delete selected task", "/delete_task"));
         availablePages.add(new Page("edit_task", "Edit Task", "Edit task name and due date", "/edit_task"));
-        availablePages.add(new Page("permission_list", "Permissions granted to list", "Edit task name and due date", "/permission_list"));
+        availablePages.add(new Page("permissions", "Permissions granted to list", "Edit task name and due date", "/permissions"));
+        availablePages.add(new Page("permission_grant", "Grant permission to user", "Grant permission to user", "/perimssion/grant"));
+        availablePages.add(new Page("permission_revoke", "Revoke permission to user", "Grant permission to user", "/perimssion/revoke"));
         availablePages.add(new Page("useraccount", "User settings", "Edit user settings", "/useraccount"));
     }
 

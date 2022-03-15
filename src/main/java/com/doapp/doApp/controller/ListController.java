@@ -32,8 +32,8 @@ public class ListController {
 
 
     @GetMapping("/lists")
-    public ModelAndView list(ModelMap model,
-                             @RequestParam("token") String token) {
+    public ModelAndView listsForm(ModelMap model,
+                                  @RequestParam("token") String token) {
         User user = ul.userLogin(token);
         if (user == null) {
             return new ModelAndView("login", model);
@@ -45,9 +45,9 @@ public class ListController {
     }
 
     @GetMapping("/list/{listId}")
-    public ModelAndView list(ModelMap model,
-                             @RequestParam("token") String token,
-                             @PathVariable("listId") Integer listId) {
+    public ModelAndView listForm(ModelMap model,
+                                 @RequestParam("token") String token,
+                                 @PathVariable("listId") Integer listId) {
         User user = ul.userLogin(token);
         if (user == null) {
             return new ModelAndView("login", model);
@@ -71,9 +71,9 @@ public class ListController {
     }
 
     @PostMapping("/list/create")
-    public ModelAndView create(ModelMap model,
-                               @RequestParam("token") String token,
-                               @RequestParam("newListName") String name) {
+    public ModelAndView listCreateAction(ModelMap model,
+                                         @RequestParam("token") String token,
+                                         @RequestParam("newListName") String name) {
         User user = ul.userLogin(token);
         if (user == null) {
             return new ModelAndView("redirect:/login", model);
@@ -95,10 +95,10 @@ public class ListController {
     }
 
     @PostMapping("/list/edit")
-    public ModelAndView edit(ModelMap model,
-                             @RequestParam("token") String token,
-                             @RequestParam("listId") Integer listId,
-                             @RequestParam("newName") String newName) {
+    public ModelAndView listEditAction(ModelMap model,
+                                       @RequestParam("token") String token,
+                                       @RequestParam("listId") Integer listId,
+                                       @RequestParam("newName") String newName) {
         User user = ul.userLogin(token);
         if (user == null) {
             return new ModelAndView("login", model);
@@ -111,9 +111,9 @@ public class ListController {
     }
 
     @DeleteMapping("/list/delete/{listId}")
-    public ModelAndView delete(ModelMap model,
-                               @RequestParam("token") String token,
-                               @PathVariable("listId") Integer listId) {
+    public ModelAndView listDeleteAction(ModelMap model,
+                                         @RequestParam("token") String token,
+                                         @PathVariable("listId") Integer listId) {
         User user = ul.userLogin(token);
         if (user == null) {
             return new ModelAndView("login", model);

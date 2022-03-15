@@ -6,6 +6,7 @@ import com.doapp.doApp.service.PageDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +27,11 @@ public class UserLoginController {
         this.ur = ur;
     }
 
+    @GetMapping("/")
+    public ModelAndView index(ModelMap model) {
+        return new ModelAndView("login", model);
+    }
+
     @PostMapping("/api/login")
     public ModelAndView login(ModelMap model,
                               @RequestParam("username") String username,
@@ -43,8 +49,6 @@ public class UserLoginController {
         System.err.println("Login: Passed, user creds: " + uc);
 
         model.addAttribute("token", uc.getToken());
-
-//        ModelAndView redirect = lc.list(model, uc.getToken()); // very weird construction...
 
         return new ModelAndView("redirect:/lists", model);
     }
