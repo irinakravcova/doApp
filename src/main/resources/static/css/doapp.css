@@ -1,0 +1,20 @@
+a.my-button {
+    color: black;
+    text-decoration: none;
+}
+.my-button {
+    background-color: #008CBA; /* Blue */
+    border-radius: 5px;
+    border: 1px solid darkblue;
+    padding-left: 20pt;
+    padding-right: 20pt;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.my-button:hover {
+    background-color: #008CBA; /* Blue */
+    color: white;
+}
