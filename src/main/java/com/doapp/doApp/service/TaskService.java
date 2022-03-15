@@ -49,7 +49,7 @@ public class TaskService {
 
         TaskList taskList = tls.findById(listId).orElseThrow();
         // todo: add check if this list is writable for current user
-        Task task = new Task(null, user, taskList, task_content_here, null, Status.INCOMPLETE);
+        Task task = new Task(null, user, taskList, task_content_here, null, Status.INCOMPLETE.toString());
         em.persist(task);
         return task;
     }

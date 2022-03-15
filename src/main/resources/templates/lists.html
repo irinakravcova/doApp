@@ -26,13 +26,13 @@
                             <a th:href="${'/list/' + lst.listId + '?token=' + token}" th:text="${lst.name}"></a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="my-button" th:href="${'/list/edit/' + lst.listId + '?token=' + token}">Edit</a>
+                            <a class="my-button" th:href="${'/edit_list/' + lst.listId + '?token=' + token}">Edit</a>
                         </div>
                         <div class="col-sm-2">
                             <a class="my-button" th:href="${'/permissions/' + lst.listId + '?token=' + token}">Share</a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="my-button" th:href="${'/list/delete/' + lst.listId + '?token=' + token}">Delete</a>
+                            <a class="my-button" th:href="${'/list/delete/' + lst.listId + '?token=' + token}">Delete (N/A)</a>
                         </div>
                     </div>
                 </li>

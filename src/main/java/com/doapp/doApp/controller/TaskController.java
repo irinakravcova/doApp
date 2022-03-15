@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
+import static com.doapp.doApp.controller.DoAppErrorCode.ILLEGAL_STATUS_CHANGE;
+import static com.doapp.doApp.controller.DoAppErrorCode.NOT_IMPLEMENTED;
+
 @Controller
 public class TaskController {
     @Autowired
@@ -67,7 +72,7 @@ public class TaskController {
             return new ModelAndView("login", model);
         }
         TaskList taskList = tlr.findById(listId).orElseThrow();
-        Task task = new Task(null, user, taskList, name, null, Status.INCOMPLETE);
+        Task task = new Task(null, user, taskList, name, null, Status.INCOMPLETE.toString());
         Task saved = tr.save(task);
 
         System.out.println("Just created new task with id=" + saved.getTaskId());
@@ -90,7 +95,7 @@ public class TaskController {
         }
         model.addAttribute("token", user.getToken());
         model.addAttribute("listId", listId);
-        Task task = tr.findByIdAndTaskOwner(taskId, user.getUserId());
+        Task task = tr.findTaskByIdIfAccessibleToUser(taskId, user.getUserId());
         if (task == null) {
             System.err.println("No task or user has no rights: " + taskId + "/" + user.getUserId());
 
@@ -102,6 +107,35 @@ public class TaskController {
         return new ModelAndView("redirect:/list/" + listId, model);
     }
 
+    @GetMapping("/task/complete/{taskId}/{listId}")
+    public ModelAndView complete(ModelMap model,
+                                 @RequestParam("token") String token,
+                                 @PathVariable("taskId") Integer taskId,
+                                 @PathVariable("listId") Integer listId) {
+        User user = ul.userLogin(token);
+        if (user == null) {
+            return new ModelAndView("login", model);
+        }
+        model.addAttribute("token", user.getToken());
+        model.addAttribute("listId", listId);
+
+        List<Task> tasks = tr.listTasks(listId, user.getUserId());
+        model.addAttribute("tasks", tasks);
+
+        //TODO: check if user can delete specified task from list this task belongs to
+        Task task = tr.findById(taskId).orElseThrow();
+        if (task.getStatus().equals(Status.COMPLETED.toString())) {
+            model.addAttribute("errorCode", ILLEGAL_STATUS_CHANGE);
+            model.addAttribute("errorMessage", "Task already completed");
+            return new ModelAndView("list", model);
+        }
+
+        task.setStatus(Status.COMPLETED.toString());
+        tr.save(task);
+
+        return new ModelAndView("list", model);
+    }
+
     @GetMapping("/task/delete/{taskId}/{listId}")
     public ModelAndView delete(ModelMap model,
                                @RequestParam("token") String token,
@@ -111,10 +145,17 @@ public class TaskController {
         if (user == null) {
             return new ModelAndView("login", model);
         }
-        //TODO: check if user can delete specified task from list this task belongs to
-        System.err.println("Task deletion not implemented yet, taskId: " + taskId);
+        model.addAttribute("token", user.getToken());
+        model.addAttribute("listId", listId);
 
-        return new ModelAndView("redirect:/list/" + listId, model);
+        //TODO: check if user can delete specified task from list this task belongs to
+
+        List<Task> tasks = tr.listTasks(listId, user.getUserId());
+        model.addAttribute("tasks", tasks);
+        model.addAttribute("errorCode", NOT_IMPLEMENTED);
+        model.addAttribute("errorMessage", "Deletion not implemented");
+
+        return new ModelAndView("list", model);
     }
 
 }

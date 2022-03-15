@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import static com.doapp.doApp.controller.DoAppErrorCode.NOT_OWNER_OF_LIST;
+
 /*
  * TODO: authorization should be changed to really secure way instead of passing direct userId
  */
@@ -38,9 +40,11 @@ public class ListController {
         if (user == null) {
             return new ModelAndView("login", model);
         }
-        List<TaskList> lists = tlr.getLists(user.getUserId());
         model.addAttribute("token", user.getToken());
+
+        List<TaskList> lists = tlr.getLists(user.getUserId());
         model.addAttribute("lists", lists);
+
         return new ModelAndView("lists", model);
     }
 
@@ -52,10 +56,12 @@ public class ListController {
         if (user == null) {
             return new ModelAndView("login", model);
         }
+        model.addAttribute("token", user.getToken());
+
         List<Task> tasks = tr.listTasks(listId, user.getUserId());
         model.addAttribute("listId", listId);
-        model.addAttribute("token", user.getToken());
         model.addAttribute("tasks", tasks);
+
         return new ModelAndView("list", model);
     }
 
@@ -67,6 +73,7 @@ public class ListController {
             return new ModelAndView("login", model);
         }
         model.addAttribute("token", user.getToken());
+
         return new ModelAndView("add_list", model);
     }
 
@@ -78,19 +85,37 @@ public class ListController {
         if (user == null) {
             return new ModelAndView("redirect:/login", model);
         }
+        model.addAttribute("token", user.getToken());
+
         TaskList taskList = new TaskList(null, user, null, name);
         TaskList saved = tlr.save(taskList);
         System.out.println("List created: " + saved.getListId());
-        model.addAttribute("token", user.getToken());
         return new ModelAndView("redirect:/lists", model);
     }
 
-    @GetMapping("/edit_list")
-    public ModelAndView editListForm(ModelMap model) {
-        User user = ul.userLogin((String) model.getAttribute("token"));
+    @GetMapping("/edit_list/{listId}")
+    public ModelAndView editListForm(ModelMap model,
+                                     @RequestParam("token") String token,
+                                     @PathVariable("listId") Integer listId) {
+        User user = ul.userLogin(token);
         if (user == null) {
             return new ModelAndView("login", model);
         }
+        model.addAttribute("token", user.getToken());
+
+        TaskList list = tlr.findById(listId).orElseThrow();
+        if (!user.getUserId().equals(list.getOwner().getUserId())) {
+            model.addAttribute("errorCode", NOT_OWNER_OF_LIST);
+            model.addAttribute("errorMessage", "You are not owner of list");
+            List<TaskList> lists = tlr.getLists(user.getUserId());
+            model.addAttribute("lists", lists);
+
+            return new ModelAndView("lists", model);
+        }
+
+        model.addAttribute("listId", list.getListId());
+        model.addAttribute("name", list.getName());
+
         return new ModelAndView("edit_list", model);
     }
 
@@ -103,14 +128,26 @@ public class ListController {
         if (user == null) {
             return new ModelAndView("login", model);
         }
-        TaskList taskList = tlr.findById(listId).orElseThrow();
-        taskList.setName(newName);
-        tlr.save(taskList);
         model.addAttribute("token", user.getToken());
-        return new ModelAndView("lists", model);
+
+        TaskList list = tlr.findById(listId).orElseThrow();
+        if (!user.getUserId().equals(list.getOwner().getUserId())) {
+            model.addAttribute("errorCode", NOT_OWNER_OF_LIST);
+            model.addAttribute("errorMessage", "You are not owner of list");
+
+            List<TaskList> lists = tlr.getLists(user.getUserId());
+            model.addAttribute("lists", lists);
+
+            return new ModelAndView("redirect:/lists", model);
+        }
+
+        list.setName(newName);
+        tlr.save(list);
+
+        return new ModelAndView("redirect:/lists", model);
     }
 
-    @DeleteMapping("/list/delete/{listId}")
+    @GetMapping("/list/delete/{listId}")
     public ModelAndView listDeleteAction(ModelMap model,
                                          @RequestParam("token") String token,
                                          @PathVariable("listId") Integer listId) {
@@ -118,10 +155,23 @@ public class ListController {
         if (user == null) {
             return new ModelAndView("login", model);
         }
-        //todo: not implemented; must check if user is list owner; also need to get confirmation if list is not empty
         model.addAttribute("token", user.getToken());
+
+        TaskList list = tlr.findById(listId).orElseThrow();
+        if (!user.getUserId().equals(list.getOwner().getUserId())) {
+            model.addAttribute("errorCode", NOT_OWNER_OF_LIST);
+            model.addAttribute("errorMessage", "You are not owner of list");
+            List<TaskList> lists = tlr.getLists(user.getUserId());
+            model.addAttribute("lists", lists);
+            return new ModelAndView("lists", model);
+        }
+
         model.addAttribute("errorCode", 1); // just non-zero value to display message in template
         model.addAttribute("errorMessage", "Delete not implemented");
+
+        List<TaskList> lists = tlr.getLists(user.getUserId());
+        model.addAttribute("lists", lists);
+
         return new ModelAndView("lists", model);
     }
 

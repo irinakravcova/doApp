@@ -17,9 +17,9 @@ public class TaskList {
     @GeneratedValue
     private Integer listId;
     @ManyToOne
-    @JoinColumn(name = "owner_user_id")
+    @JoinColumn(name = "owner_user_id", insertable = false, updatable = false)
     private User owner;
-    @OneToMany
+    @OneToMany (mappedBy = "listPermissionId.taskList")
     private List<ListPermission> listPermission;
     private String name;
 

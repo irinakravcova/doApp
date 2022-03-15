@@ -64,6 +64,10 @@ public class ListPermissionController {
         if (!user.getUserId().equals(list.getOwner().getUserId())) {
             model.addAttribute("errorCode", NOT_OWNER_OF_LIST);
             model.addAttribute("errorMessage", "You are not owner of list");
+
+            List<TaskList> lists = tlr.getLists(user.getUserId());
+            model.addAttribute("lists", lists);
+
             return new ModelAndView("lists", model);
         }
 
@@ -110,6 +114,8 @@ public class ListPermissionController {
 
         loadPermissionsAndUsers(model, listId, user.getUserId());
 
+        //TODO: add email notification functionality about granting permissions
+
         return redirectToPermissionList(model, listId);
     }
 
@@ -144,6 +150,8 @@ public class ListPermissionController {
         System.out.println("Permission revoked: list=" + listId + ", userId=" + granteeUserId);
 
         loadPermissionsAndUsers(model, listId, user.getUserId());
+
+        //TODO: add email notification functionality about removal permissions
 
         return redirectToPermissionList(model, listId);
     }

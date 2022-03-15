@@ -12,27 +12,27 @@
 </header>
 <main class="container mt-3">
     <section class="p-3">
+        <div class="list-group-flush alert-danger" th:if="${errorCode != null}">
+            <label th:text="${'Error message: ' + errorMessage}"></label>
+        </div>
         <div>
             <a th:href="${'/lists?token=' + token}">Back to Lists</a>
             <ul class="list-group-flush" th:if="${tasks != null}">
                 <ul class="list-group-flush" th:if="${tasks.size() != 0}">
                     <li class="list-group-item" th:each="task : ${tasks}">
                         <div class="row">
-                            <div class="col-auto">
-                                <div class="row mt-3 card-text" style="font-size: 20px">
-                                    <label th:text="${task.taskId}"></label>
-                                </div>
-                                <div class="row mt-3 card-text" style="font-size: 20px">
-                                    <a th:href="${'/edit_task/' + task.taskId + '?token=' + token}" th:text="${task.name}"></a>
-                                    <!-- Add link to jump to tasks of specific list -->
-                                    </label>
-
-                                    <div class="row">
-                                        <button class="p-3 btn btn-primary">Delete Task</button>
-                                    </div>
-
-                                </div>
-                                <!-- Add buttons for complete task -->
+                            <div class="col-sm-6" style="font-size: 20px">
+                                <label th:text="${task.taskId}"></label>
+                                <a th:href="${'/edit_task/' + task.taskId + '?token=' + token}" th:text="${task.name}"></a>
+                            </div>
+                            <div class="col-sm-2">
+                                <label th:text="${task.status}"></label>
+                            </div>
+                            <div class="col-sm-2">
+                                <a th:href="${'/task/delete/' + task.taskId + '/' + task.getList().getListId() + '?token=' + token}" class="btn btn-primary my-button">Delete</a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a th:href="${'/task/complete/' + task.taskId + '/' + task.getList().getListId() + '?token=' + token}" class="btn btn-primary my-button">Complete</a>
                             </div>
                         </div>
                     </li>

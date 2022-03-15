@@ -24,7 +24,5 @@ public class Task {
     private TaskList list;
     private String name;
     private Calendar dueDate;
-    @Enumerated(EnumType.ORDINAL)
-    @Embedded
-    private Status status;
+    private String status;
 }
