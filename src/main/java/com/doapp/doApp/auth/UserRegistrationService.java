@@ -29,10 +29,10 @@ public class UserRegistrationService {
             System.err.println("Failed to obtain MD5 generator: " + e);
             return "Failed to create user";
         }
-        byte[] tokenSourceData = (userName + password).getBytes(StandardCharsets.UTF_8);
-        byte[] md5bytes = md.digest(tokenSourceData);
-        String md5string = bytesToHex(md5bytes); // convert resulting hash to string representation
-        User newUser = new User(null, nameSurname, userName, md5string, email, null, null);
+        byte[] hashedPasswordSourceData = (userName + password).getBytes(StandardCharsets.UTF_8);
+        byte[] md5bytes = md.digest(hashedPasswordSourceData);
+        String hashedPassword = bytesToHex(md5bytes); // convert resulting hash to string representation
+        User newUser = new User(null, nameSurname, userName, hashedPassword, email, null, null);
         User savedUser = ur.save(newUser);
         System.out.println("User created with name: '" + savedUser.getUserName() + "', id: " + savedUser.getUserId());
         return "OK";

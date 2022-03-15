@@ -28,18 +28,19 @@ public class UserLoginService {
             System.err.println("Failed to obtain MD5 generator: " + e);
             return null;
         }
-        byte[] tokenSourceData = (userName + password).getBytes(StandardCharsets.UTF_8); // create base for hashing
-        byte[] md5bytes = md.digest(tokenSourceData); // generate hash out of base
-        String md5string = bytesToHex(md5bytes); // convert resulting hash to string representation
-        User userFound = ur.findByUserNameAndPassword(userName, md5string);
+        byte[] hashedPasswordSourceData = (userName + password).getBytes(StandardCharsets.UTF_8); // create base for hashing
+        byte[] md5bytes = md.digest(hashedPasswordSourceData); // generate hash out of base
+        String hashedPassword = bytesToHex(md5bytes); // convert resulting hash to string representation
+        User userFound = ur.findByUserNameAndPassword(userName, hashedPassword);
 
         if (userFound == null) {
             return new UserCredentials("ERROR", "Invalid password or user not found");
         }
         md.reset();
-        String token = bytesToHex(md.digest(
-                (userFound.getUserName() + userFound.getEmail() + new Random().nextInt(Integer.MAX_VALUE)).
-                        getBytes(StandardCharsets.UTF_8)));
+        byte[] hashedTokenSourceData = (userFound.getUserName() + userFound.getEmail() + new Random().nextInt(Integer.MAX_VALUE))
+                .getBytes(StandardCharsets.UTF_8);
+        byte[] md5tokenData = md.digest(hashedTokenSourceData);
+        String token = bytesToHex(md5tokenData);
         userFound.setToken(token);
 
         Calendar tokenExpiration = Calendar.getInstance();
