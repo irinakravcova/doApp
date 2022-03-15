@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -20,7 +19,7 @@ public class UserLoginService {
     @Autowired
     UserRepository ur;
 
-    public UserCredentials login(String userName, String password) {
+    public User login(String userName, String password) {
         MessageDigest md; // we need some hashing function; let's use MD5 for easier implementation
         try {
             md = MessageDigest.getInstance("MD5"); // replace to bcrypt for safety later!!!
@@ -34,7 +33,7 @@ public class UserLoginService {
         User userFound = ur.findByUserNameAndPassword(userName, hashedPassword);
 
         if (userFound == null) {
-            return new UserCredentials("ERROR", "Invalid password or user not found");
+            return null;
         }
         md.reset();
         byte[] hashedTokenSourceData = (userFound.getUserName() + userFound.getEmail() + new Random().nextInt(Integer.MAX_VALUE))
@@ -47,23 +46,9 @@ public class UserLoginService {
         tokenExpiration.add(Calendar.SECOND, TOKEN_EXPIRATION_SECONDS);
         userFound.setTokenExpiration(tokenExpiration);
 
-        ur.save(userFound);
+        User saved = ur.save(userFound);
 
-        return new UserCredentials("OK", "", userFound.getToken(), userFound.getNameSurname());
-    }
-
-    /**
-     * Check token for validity and update expiration time if token still valid.
-     *
-     * @param token
-     * @return
-     */
-    public UserCredentials login(String token) {
-        User user = userLogin(token);
-        if (user != null) {
-            return new UserCredentials("OK", "", user.getToken(), user.getNameSurname());
-        }
-        return new UserCredentials("NOT_LOGGED_IN", "Not logged in");
+        return saved;
     }
 
     /**

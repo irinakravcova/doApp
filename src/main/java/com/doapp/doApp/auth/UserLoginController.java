@@ -1,6 +1,7 @@
 package com.doapp.doApp.auth;
 
 import com.doapp.doApp.controller.ListController;
+import com.doapp.doApp.models.User;
 import com.doapp.doApp.repository.UserRepository;
 import com.doapp.doApp.service.PageDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class UserLoginController {
                               @RequestParam("password") String password
     ) {
         System.err.println("Login: entered");
-        UserCredentials uc = ul.login(username, password);
+        User uc = ul.login(username, password);
         if (uc == null) {
             model.addAttribute("errorCode", 1);
             model.addAttribute("errorMessage", "Login failed");
