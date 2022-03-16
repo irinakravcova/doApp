@@ -89,6 +89,8 @@ public class ListController {
 
         TaskList taskList = new TaskList(null, user, null, name);
         TaskList saved = tlr.save(taskList);
+        List<TaskList> lists = tlr.getLists(user.getUserId());
+        model.addAttribute("lists", lists);
         System.out.println("List created: " + saved.getListId());
         return new ModelAndView("redirect:/lists", model);
     }
